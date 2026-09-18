@@ -25,6 +25,16 @@ const sameAs = [profile.github, profile.linkedin].filter(Boolean);
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#07111f" />
+    <script is:inline>
+      (() => {
+        let saved = null;
+        try { saved = localStorage.getItem("portfolio-theme"); } catch {}
+        const theme = saved === "light" || saved === "dark" ? saved : window.matchMedia?.("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        document.documentElement.dataset.theme = theme;
+        try { document.documentElement.dataset.sidebar = localStorage.getItem("portfolio-sidebar") === "expanded" ? "expanded" : "collapsed"; } catch { document.documentElement.dataset.sidebar = "collapsed"; }
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#07111f" : "#eef3f7");
+      })();
+    </script>
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="sitemap" href={`${base}sitemap-index.xml`} />

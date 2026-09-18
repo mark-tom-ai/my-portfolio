@@ -1,34 +1,141 @@
 ---
+import homeIcon from "@phosphor-icons/core/regular/house.svg?raw";
+import aboutIcon from "@phosphor-icons/core/regular/user.svg?raw";
+import projectsIcon from "@phosphor-icons/core/regular/folder-open.svg?raw";
+import skillsIcon from "@phosphor-icons/core/regular/code.svg?raw";
+import approachIcon from "@phosphor-icons/core/regular/compass.svg?raw";
+import contactIcon from "@phosphor-icons/core/regular/phone.svg?raw";
+import walletIcon from "@phosphor-icons/core/regular/wallet.svg?raw";
+import sidebarIcon from "@phosphor-icons/core/regular/sidebar-simple.svg?raw";
+import sunIcon from "@phosphor-icons/core/regular/sun.svg?raw";
+import moonIcon from "@phosphor-icons/core/regular/moon.svg?raw";
+
 const base = import.meta.env.BASE_URL;
 const home = base.endsWith("/") ? base : `${base}/`;
+const isProjectPage = Astro.url.pathname.includes("/projects/");
 const links = [
-  ["Work", `${home}#work`],
-  ["Expertise", `${home}#expertise`],
-  ["Approach", `${home}#approach`],
-  ["Contact", `${home}#contact`]
+  { label: "Home", href: `${home}#home`, target: "home", icon: homeIcon },
+  { label: "About", href: `${home}#about`, target: "about", icon: aboutIcon },
+  { label: "Projects", href: `${home}#work`, target: "work", icon: projectsIcon },
+  { label: "Skills", href: `${home}#expertise`, target: "expertise", icon: skillsIcon },
+  { label: "Approach", href: `${home}#approach`, target: "approach", icon: approachIcon },
+  { label: "Contact", href: `${home}#contact`, target: "contact", icon: contactIcon }
 ];
+const initialCurrent = isProjectPage ? "work" : "home";
 ---
 
-<header class="site-header">
-  <div class="shell header-inner">
-    <a class="wordmark" href={home} aria-label="Mark Niño Tomaneng, home">
-      <span aria-hidden="true">MT</span>
-      <strong>Mark Tomaneng</strong>
-    </a>
-
-    <nav class="desktop-nav" aria-label="Primary navigation">
+<header class="site-header" data-project-route={isProjectPage ? "true" : "false"}>
+  <div class="header-inner">
+    <nav class="rail-nav" aria-label="Primary navigation">
       <ul>
-        {links.map(([label, href]) => <li><a href={href}>{label}</a></li>)}
+        {links.map(({ label, href, target, icon }) => (
+          <li class:list={[target === "work" && "project-nav"]}>
+            <a class="nav-item" href={href} aria-label={label} aria-current={target === initialCurrent ? (isProjectPage ? "page" : "location") : undefined} data-nav-target={target}>
+              <span class="nav-icon" aria-hidden="true" set:html={icon}></span>
+              <span class="nav-label">{label}</span>
+              <span class="nav-tooltip" aria-hidden="true">{label}</span>
+            </a>
+            {target === "work" && (
+              <ul class="project-subnav">
+                <li>
+                  <a href={`${home}projects/expense-tracker/`} aria-current={isProjectPage ? "page" : undefined}>
+                    <span class="nav-icon" aria-hidden="true" set:html={walletIcon}></span>
+                    <span>Expense Tracker</span>
+                  </a>
+                </li>
+              </ul>
+            )}
+          </li>
+        ))}
       </ul>
     </nav>
 
-    <details class="mobile-nav">
-      <summary>Menu</summary>
-      <nav aria-label="Mobile navigation">
-        <ul>
-          {links.map(([label, href]) => <li><a href={href}>{label}</a></li>)}
-        </ul>
-      </nav>
-    </details>
+    <button class="sidebar-toggle" type="button" aria-label="Expand sidebar" aria-expanded="false">
+      <span aria-hidden="true" set:html={sidebarIcon}></span>
+    </button>
+
+    <nav class="bottom-nav" aria-label="Primary navigation">
+      <ul>
+        {links.map(({ label, href, target, icon }) => (
+          <li>
+            <a class="nav-item" href={href} aria-label={label} aria-current={target === initialCurrent ? (isProjectPage ? "page" : "location") : undefined} data-nav-target={target}>
+              <span class="nav-icon" aria-hidden="true" set:html={icon}></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </div>
 </header>
+
+<button class="theme-toggle" type="button" aria-label="Use light theme" title="Use light theme">
+  <span class="theme-icon theme-icon-sun" aria-hidden="true" set:html={sunIcon}></span>
+  <span class="theme-icon theme-icon-moon" aria-hidden="true" set:html={moonIcon}></span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const navigation = document.querySelector<HTMLElement>(".site-header");
+  const navItems = [...document.querySelectorAll<HTMLAnchorElement>("[data-nav-target]")];
+  const railNavigation = document.querySelector<HTMLElement>(".rail-nav");
+  const bottomNavigation = document.querySelector<HTMLElement>(".bottom-nav");
+  const sidebarToggle = document.querySelector<HTMLButtonElement>(".sidebar-toggle");
+  const themeToggle = document.querySelector<HTMLButtonElement>(".theme-toggle");
+  const mobileLayout = window.matchMedia("(max-width: 768px)");
+
+  const syncThemeButton = () => {
+    const label = root.dataset.theme === "dark" ? "Use light theme" : "Use dark theme";
+    themeToggle?.setAttribute("aria-label", label);
+    themeToggle?.setAttribute("title", label);
+  };
+
+  themeToggle?.addEventListener("click", () => {
+    const theme = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = theme;
+    localStorage.setItem("portfolio-theme", theme);
+    document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#07111f" : "#eef3f7");
+    syncThemeButton();
+  });
+
+  const setSidebar = (expanded: boolean) => {
+    root.dataset.sidebar = expanded ? "expanded" : "collapsed";
+    sidebarToggle?.setAttribute("aria-expanded", String(expanded));
+    sidebarToggle?.setAttribute("aria-label", expanded ? "Collapse sidebar" : "Expand sidebar");
+    localStorage.setItem("portfolio-sidebar", expanded ? "expanded" : "collapsed");
+  };
+
+  sidebarToggle?.addEventListener("click", () => setSidebar(root.dataset.sidebar !== "expanded"));
+
+  const syncNavigationLayout = () => {
+    const isMobile = mobileLayout.matches;
+    if (railNavigation) {
+      railNavigation.inert = isMobile;
+      railNavigation.setAttribute("aria-hidden", String(isMobile));
+    }
+    if (bottomNavigation) {
+      bottomNavigation.inert = !isMobile;
+      bottomNavigation.setAttribute("aria-hidden", String(!isMobile));
+    }
+  };
+
+  const setCurrent = (target: string) => navItems.forEach((item) => target === item.dataset.navTarget ? item.setAttribute("aria-current", "location") : item.removeAttribute("aria-current"));
+
+  if (navigation?.dataset.projectRoute !== "true") {
+    const sections = ["home", "about", "work", "expertise", "approach", "contact"]
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target.id) setCurrent(visible.target.id);
+    }, { rootMargin: "-28% 0px -58% 0px", threshold: [0, 0.25, 0.5, 0.75] });
+    sections.forEach((section) => observer.observe(section));
+    navItems.forEach((item) => item.addEventListener("click", () => setCurrent(item.dataset.navTarget ?? "home")));
+  }
+
+  if (!root.dataset.sidebar) root.dataset.sidebar = localStorage.getItem("portfolio-sidebar") === "expanded" ? "expanded" : "collapsed";
+  sidebarToggle?.setAttribute("aria-expanded", String(root.dataset.sidebar === "expanded"));
+  sidebarToggle?.setAttribute("aria-label", root.dataset.sidebar === "expanded" ? "Collapse sidebar" : "Expand sidebar");
+  syncThemeButton();
+  syncNavigationLayout();
+  mobileLayout.addEventListener("change", syncNavigationLayout);
+</script>

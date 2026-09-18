@@ -5,6 +5,7 @@ import SiteFooter from "../components/SiteFooter.astro";
 import { profile } from "../data/profile";
 import { Image } from "astro:assets";
 import systemsArchitecture from "../assets/systems-architecture.png";
+import expenseTrackerPlatform from "../assets/expense-tracker-platform.png";
 import markPortrait from "../assets/mark-tomaneng.jpeg";
 
 const base = import.meta.env.BASE_URL;
@@ -88,7 +89,7 @@ const principles = [
 <BaseLayout>
   <SiteHeader />
   <main id="main">
-    <section class="hero shell" aria-labelledby="hero-title">
+    <section class="hero shell" id="home" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow">Mark Niño Tomaneng / Senior .NET Engineer</p>
         <h1 id="hero-title">Production-ready backend systems.</h1>
@@ -107,7 +108,6 @@ const principles = [
           loading="eager"
           fetchpriority="high"
         />
-        <figcaption>Editorial artwork representing dependable system flow.</figcaption>
       </figure>
     </section>
 
@@ -143,8 +143,8 @@ const principles = [
     <section class="section shell featured" id="work" aria-labelledby="featured-title">
       <div class="featured-media">
         <Image
-          src={systemsArchitecture}
-          alt="Abstract systems architecture artwork for the Expense Tracker Platform case study"
+          src={expenseTrackerPlatform}
+          alt="Modular financial platform connecting accounts, recurring finance, reporting, secure access, and data stores"
           widths={[640, 960, 1280]}
           sizes="(max-width: 900px) 100vw, 55vw"
           loading="lazy"
