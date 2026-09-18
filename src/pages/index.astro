@@ -1,0 +1,245 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { profile } from "../data/profile";
+import { Image } from "astro:assets";
+import systemsArchitecture from "../assets/systems-architecture.png";
+import markPortrait from "../assets/mark-tomaneng.jpeg";
+
+const base = import.meta.env.BASE_URL;
+const projectUrl = `${base}projects/expense-tracker/`;
+const contactLinks = [
+  ["Email", profile.email ? `mailto:${profile.email}` : ""],
+  ["GitHub", profile.github],
+  ["LinkedIn", profile.linkedin],
+  ["Resume", profile.resume ? `${base}${profile.resume.replace(/^\//, "")}` : ""]
+].filter((entry) => entry[1]);
+
+const work = [
+  {
+    title: "Distributed configuration delivery",
+    copy: "Worked across synchronization, cache invalidation, API contracts, observability, and cross-team production debugging."
+  },
+  {
+    title: "Account hierarchy and ownership",
+    copy: "Helped shape hierarchical account rules with careful authorization, backward compatibility, and domain validation."
+  },
+  {
+    title: "Third-party API evolution",
+    copy: "Handled changing external APIs through focused regression testing, edge-case analysis, and resilient integration design."
+  }
+];
+
+const tools = [
+  "Visual Studio",
+  "VS Code",
+  ".NET CLI",
+  "WSL2",
+  "Git",
+  "GitHub",
+  "GitHub Actions",
+  "Azure DevOps",
+  "SQL Server",
+  "SSMS",
+  "Azure Functions",
+  "Azure Service Bus",
+  "ChatGPT and Codex",
+  "GitHub Copilot",
+  "Jenkins (working exposure)"
+];
+
+const technologyGroups = [
+  {
+    title: "Backend and framework",
+    summary: "Core production stack",
+    items: ["C#", ".NET and ASP.NET Core", "ASP.NET MVC", "ASP.NET Web API", "Entity Framework and EF Core", "Dapper", "AutoMapper", ".NET dependency injection", "HttpClient"]
+  },
+  {
+    title: "Data and Azure",
+    summary: "Persistence, migration, and cloud workflows",
+    items: ["Microsoft SQL Server", "EF Core migrations", "SQL query and performance tooling", "SQLite for personal projects", "Data migration workflows", "ETL-related workflows", "Azure Functions", "Azure Service Bus", "Azure App Service", "Azure DevOps CI/CD pipelines"]
+  },
+  {
+    title: "APIs and web",
+    summary: "Integrations and product delivery",
+    items: ["REST APIs", "Microsoft Advertising API", "Google Ads API", "OAuth", "JWT", "ASP.NET Identity", "MQTT", "Blazor", "HTML and CSS", "JavaScript", "TypeScript"]
+  },
+  {
+    title: "AI and agent development",
+    summary: "Tools used with human review",
+    items: ["ChatGPT", "OpenAI and Codex", "Codex CLI", "Codex in VS Code", "GitHub Copilot", "GitHub Copilot PR Reviewer", "MCP tools", "Agent Skills", "AGENTS.md instructions", "AI-assisted code review", "AI-assisted technical documentation", "AI-assisted architecture exploration"]
+  },
+  {
+    title: "Architecture and workflow",
+    summary: "How engineering context stays durable",
+    items: ["Clean Architecture", "Repository-based documentation", "Markdown specifications", "Repository-based task tracking", "Technical architecture documents", "Business logic documents", "AI-readable implementation specs", "PR and code-review workflows", "Architecture diagrams and HTML visual aids"]
+  }
+];
+
+const principles = [
+  ["Understand the domain", "Clarify the behavior behind a feature before optimizing its implementation."],
+  ["Design for change", "Prefer explicit boundaries, predictable APIs, and decisions the next engineer can trace."],
+  ["Trust production evidence", "Use logs, data, edge cases, and real integrations to challenge assumptions."],
+  ["Keep ownership human", "Use AI to accelerate work while retaining responsibility for architecture and correctness."]
+];
+---
+
+<BaseLayout>
+  <SiteHeader />
+  <main id="main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Mark Niño Tomaneng / Senior .NET Engineer</p>
+        <h1 id="hero-title">Production-ready backend systems.</h1>
+        <p class="hero-summary">I build .NET APIs, integrations, and cloud systems shaped by real business rules and production constraints.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#work">View work</a>
+          <a class="button button-secondary" href="#about">About me</a>
+        </div>
+      </div>
+      <figure class="hero-visual">
+        <Image
+          src={systemsArchitecture}
+          alt="Abstract modular system with connected services, guarded boundaries, and data stores"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 900px) 100vw, 45vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <figcaption>Editorial artwork representing dependable system flow.</figcaption>
+      </figure>
+    </section>
+
+    <section class="credibility" aria-label="Professional profile">
+      <div class="shell credibility-grid">
+        <p><strong>7 years</strong><span>Professional engineering</span></p>
+        <p><strong>Backend first</strong><span>C# and .NET</span></p>
+        <p><strong>Production minded</strong><span>APIs, data, integrations</span></p>
+        <p><strong>Remote ready</strong><span>Based in the Philippines</span></p>
+      </div>
+    </section>
+
+    <section class="section shell about" id="about" aria-labelledby="about-title">
+      <figure class="profile-photo">
+        <Image
+          src={markPortrait}
+          alt="Portrait of Mark Niño Tomaneng"
+          widths={[360, 520, 720]}
+          sizes="(max-width: 900px) 70vw, 26vw"
+          loading="lazy"
+        />
+      </figure>
+      <div class="about-copy">
+        <h2 id="about-title">Backend depth, product awareness.</h2>
+        <p>I am a software engineer with around seven years of experience building and maintaining production software, primarily with C# and .NET.</p>
+        <p>My work extends beyond implementation into requirements, technical planning, release support, code review, mentoring, and cross-team problem solving.</p>
+      </div>
+      <aside class="about-aside">
+        <p>I care about systems that reflect the actual business domain and remain understandable to the next engineer.</p>
+      </aside>
+    </section>
+
+    <section class="section shell featured" id="work" aria-labelledby="featured-title">
+      <div class="featured-media">
+        <Image
+          src={systemsArchitecture}
+          alt="Abstract systems architecture artwork for the Expense Tracker Platform case study"
+          widths={[640, 960, 1280]}
+          sizes="(max-width: 900px) 100vw, 55vw"
+          loading="lazy"
+        />
+      </div>
+      <div class="featured-copy">
+        <p class="status">Personal project / In development</p>
+        <h2 id="featured-title">Expense Tracker Platform</h2>
+        <p>A modular financial-management platform exploring multiple workspaces, recurring finance, collaboration, reporting, and AI-assisted product workflows.</p>
+        <ul class="compact-list">
+          <li>12 domain-oriented modules</li>
+          <li>ASP.NET Core and EF Core direction</li>
+          <li>Explicit implemented, designed, and planned states</li>
+        </ul>
+        <a class="text-link" href={projectUrl}>Read the case study <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="section shell selected-work" aria-labelledby="selected-title">
+      <div class="section-heading">
+        <h2 id="selected-title">Selected engineering work</h2>
+        <p>Sanitized production themes that show the shape of the problems without exposing client details.</p>
+      </div>
+      <div class="work-list">
+        {work.map((item, index) => (
+          <article>
+            <span aria-hidden="true">0{index + 1}</span>
+            <h3>{item.title}</h3>
+            <p>{item.copy}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section shell" id="expertise" aria-labelledby="expertise-title">
+      <div class="section-heading narrow">
+        <h2 id="expertise-title">Tools and technologies</h2>
+        <p>A credible working stack, separated from architectural interests and technologies still being explored.</p>
+      </div>
+      <div class="tooling">
+        <div class="tools-intro">
+          <h3>Primary tools</h3>
+          <p>Used across implementation, data work, collaboration, delivery, and AI-assisted engineering.</p>
+        </div>
+        <ul class="tool-list">
+          {tools.map((tool) => <li>{tool}</li>)}
+        </ul>
+      </div>
+      <div class="technology-groups">
+        {technologyGroups.map((group, index) => (
+          <details open={index === 0}>
+            <summary>
+              <span>{group.title}</span>
+              <small>{group.summary}</small>
+            </summary>
+            <ul>
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="section shell approach" id="approach" aria-labelledby="approach-title">
+      <div class="approach-intro">
+        <h2 id="approach-title">Engineering judgment is part of the deliverable.</h2>
+        <p>Tools can speed up implementation. They do not replace responsibility for product behavior, system boundaries, or verification.</p>
+      </div>
+      <div class="principles">
+        {principles.map(([title, copy]) => (
+          <article>
+            <h3>{title}</h3>
+            <p>{copy}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section shell ai-note" aria-labelledby="ai-title">
+      <p class="ai-kicker">AI-assisted engineering</p>
+      <h2 id="ai-title">AI agents are part of my workflow, not the source of truth.</h2>
+      <p>I use them for implementation drafts, exploration, documentation, technical review, and prototyping. Architecture, business rules, testing, and final decisions remain human responsibilities.</p>
+    </section>
+
+    <section class="section shell contact" id="contact" aria-labelledby="contact-title">
+      <div>
+        <h2 id="contact-title">Open to senior backend and product engineering opportunities.</h2>
+        <p>Based in the Philippines and open to remote work with teams building API-heavy, integration-heavy, or cloud-based products.</p>
+      </div>
+      {contactLinks.length > 0 && (
+        <div class="contact-links" aria-label="Contact links">
+          {contactLinks.map(([label, href]) => <a href={href} rel={label === "Email" ? undefined : "me noreferrer"}>{label}</a>)}
+        </div>
+      )}
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

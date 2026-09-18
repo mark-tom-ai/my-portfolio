@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import { Image } from "astro:assets";
+import systemsArchitecture from "../../assets/systems-architecture.png";
+
+const title = "Expense Tracker Platform | Mark Niño Tomaneng";
+const description = "Case study for a modular, multi-workspace financial-management platform in development.";
+const base = import.meta.env.BASE_URL;
+
+const modules = [
+  "Workspace and Access",
+  "Financial Core",
+  "Recurring Finance",
+  "Financial Organization",
+  "Collaboration",
+  "Planning",
+  "Financial Data Intake",
+  "Reporting",
+  "Feature Control",
+  "AI and RAG",
+  "Audit and Notifications",
+  "Platform Administration"
+];
+---
+
+<BaseLayout {title} {description}>
+  <SiteHeader />
+  <main id="main">
+    <article class="case-study">
+      <header class="case-hero shell">
+        <a class="back-link" href={`${base}#work`}><span aria-hidden="true">←</span> Back to work</a>
+        <p class="status">Personal project / In development</p>
+        <h1>Expense Tracker Platform</h1>
+        <p>A multi-workspace financial-management system designed to grow from a useful personal tool into a modular collaborative platform.</p>
+        <dl class="case-facts">
+          <div><dt>Focus</dt><dd>Backend architecture and product modeling</dd></div>
+          <div><dt>Direction</dt><dd>ASP.NET Core, EF Core, Blazor</dd></div>
+          <div><dt>Status</dt><dd>Architecture and implementation in progress</dd></div>
+        </dl>
+      </header>
+
+      <figure class="case-image shell">
+        <Image
+          src={systemsArchitecture}
+          alt="Abstract representation of modular services, data flow, and guarded system boundaries"
+          widths={[640, 960, 1280, 1536]}
+          sizes="(max-width: 1320px) 100vw, 1280px"
+        />
+      </figure>
+
+      <section class="case-section shell reading-width" aria-labelledby="context-title">
+        <h2 id="context-title">Context</h2>
+        <p>The project explores personal and shared financial management without treating every feature as another CRUD screen. The core challenge is defining ownership, recurrence, collaboration, and policy rules that remain consistent as the product grows.</p>
+      </section>
+
+      <section class="case-section shell" aria-labelledby="architecture-title">
+        <div class="section-heading narrow">
+          <h2 id="architecture-title">Architecture direction</h2>
+          <p>A modular backend owns business rules while web, mobile, background work, and AI capabilities remain replaceable edges.</p>
+        </div>
+        <div class="architecture-map" role="img" aria-label="Web and mobile clients connect to an ASP.NET Core API, which coordinates domain modules, persistence, background workers, and AI services">
+          <div class="map-node clients">Web and mobile clients</div>
+          <div class="map-connector" aria-hidden="true">↓</div>
+          <div class="map-node core">ASP.NET Core API and domain modules</div>
+          <div class="map-connector split" aria-hidden="true">↙ ↓ ↘</div>
+          <div class="map-row">
+            <div class="map-node">EF Core and SQL</div>
+            <div class="map-node">Background processing</div>
+            <div class="map-node">AI and RAG</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section shell" aria-labelledby="modules-title">
+        <div class="section-heading narrow">
+          <h2 id="modules-title">Twelve product modules</h2>
+          <p>The module map makes boundaries visible before implementation pressure turns them into accidental coupling.</p>
+        </div>
+        <ol class="module-grid">
+          {modules.map((module, index) => <li><span>{String(index + 1).padStart(2, "0")}</span>{module}</li>)}
+        </ol>
+      </section>
+
+      <section class="case-section shell decisions" aria-labelledby="decisions-title">
+        <h2 id="decisions-title">Key decisions</h2>
+        <div>
+          <article>
+            <h3>Workspace-owned configuration</h3>
+            <p>Financial categories, policies, and feature behavior belong to a workspace so personal and collaborative contexts can evolve independently.</p>
+          </article>
+          <article>
+            <h3>Recurring finance is its own model</h3>
+            <p>Recurrence rules, generated transactions, duplicate prevention, and end conditions need explicit semantics rather than a boolean on a transaction.</p>
+          </article>
+          <article>
+            <h3>Business rules stay close to the code</h3>
+            <p>Repository documentation and agent guidance preserve the reasons behind constraints, especially when technically plausible changes would be product-wrong.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="case-section shell project-state" aria-labelledby="state-title">
+        <div>
+          <h2 id="state-title">Current state</h2>
+          <p>The portfolio separates architectural intent from shipped behavior. Planned features are not presented as production capabilities.</p>
+        </div>
+        <dl>
+          <div><dt>Defined</dt><dd>Domain scope, module boundaries, product rules, and implementation direction</dd></div>
+          <div><dt>In progress</dt><dd>Core financial workflows and supporting application architecture</dd></div>
+          <div><dt>Planned</dt><dd>Broader collaboration, receipt extraction, platform administration, and production AI integration</dd></div>
+        </dl>
+      </section>
+    </article>
+  </main>
+  <SiteFooter />
+</BaseLayout>
