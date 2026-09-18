@@ -82,7 +82,12 @@ const principles = [
   ["Understand the domain", "Clarify the behavior behind a feature before optimizing its implementation."],
   ["Design for change", "Prefer explicit boundaries, predictable APIs, and decisions the next engineer can trace."],
   ["Trust production evidence", "Use logs, data, edge cases, and real integrations to challenge assumptions."],
-  ["Keep ownership human", "Use AI to accelerate work while retaining responsibility for architecture and correctness."]
+  ["Keep ownership human", "Use AI to accelerate work while retaining responsibility for architecture and correctness."],
+  [
+    "Own the outcome",
+    "I do not treat implementation as the end of the responsibility. I stay accountable for understanding the problem, clarifying gaps, making sound technical decisions, validating the behavior, and following the work through release and production.",
+    "Ownership also means raising concerns early, documenting non-obvious decisions, and leaving the system easier for the next engineer to understand."
+  ]
 ];
 ---
 
@@ -133,7 +138,7 @@ const principles = [
       <div class="about-copy">
         <h2 id="about-title">Backend depth, product awareness.</h2>
         <p>I am a software engineer with around seven years of experience building and maintaining production software, primarily with C# and .NET.</p>
-        <p>My work extends beyond implementation into requirements, technical planning, release support, code review, mentoring, and cross-team problem solving.</p>
+        <p>My work extends beyond implementation. I take ownership from requirements and technical planning through delivery, release support, production investigation, code review, mentoring, and cross-team problem solving.</p>
       </div>
       <aside class="about-aside">
         <p>I care about systems that reflect the actual business domain and remain understandable to the next engineer.</p>
@@ -197,8 +202,11 @@ const principles = [
         {technologyGroups.map((group, index) => (
           <details open={index === 0}>
             <summary>
-              <span>{group.title}</span>
+              <span class="technology-title">{group.title}</span>
               <small>{group.summary}</small>
+              <span class="accordion-action" aria-hidden="true">
+                <span class="accordion-symbol" aria-hidden="true"></span>
+              </span>
             </summary>
             <ul>
               {group.items.map((item) => <li>{item}</li>)}
@@ -214,10 +222,10 @@ const principles = [
         <p>Tools can speed up implementation. They do not replace responsibility for product behavior, system boundaries, or verification.</p>
       </div>
       <div class="principles">
-        {principles.map(([title, copy]) => (
+        {principles.map(([title, ...paragraphs]) => (
           <article>
             <h3>{title}</h3>
-            <p>{copy}</p>
+            {paragraphs.map((copy) => <p>{copy}</p>)}
           </article>
         ))}
       </div>
