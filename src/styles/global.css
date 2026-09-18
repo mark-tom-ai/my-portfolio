@@ -804,7 +804,13 @@ p {
 }
 
 .reading-width {
-  padding-inline: clamp(0rem, 9vw, 8rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  column-gap: clamp(3rem, 8vw, 8rem);
+}
+
+.reading-width > * {
+  grid-column: 1;
 }
 
 .reading-width h2 {
@@ -967,8 +973,13 @@ p {
   .approach,
   .contact,
   .decisions,
+  .reading-width,
   .project-state {
     grid-template-columns: 1fr;
+  }
+
+  .reading-width > * {
+    grid-column: auto;
   }
 
   .about {
